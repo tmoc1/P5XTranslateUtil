@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+import re
 
 # Start timer
 start_time = time.time()
@@ -53,18 +54,22 @@ for filename in os.listdir(directory_path):
                 for line_number, line in enumerate(file2, start=1):
                     line = line.strip()
 
+                    parts = []
                     if line.startswith('r:"'):
                         parts = line.split('"="', 1)
-                        if len(parts) > 1:
-                            left_side = parts[0]
+                    else:
+                        parts = re.split(r'(?<!\\)=', line, maxsplit=1)
 
-                            for text in first_parts:
-                                if text in left_side:
-                                    matches.append(
-                                        f"{filename} "
-                                        f"on line {line_number}: "
-                                        f"'{text}' in '{left_side}'"
-                                    )
+                    if len(parts) > 1:
+                        left_side = parts[0]
+
+                        for text in first_parts:
+                            if text in left_side:
+                                matches.append(
+                                    f"{filename} "
+                                    f"on line {line_number}: "
+                                    f"'{text}' in '{left_side}'"
+                                )
         except Exception as e:
             print(f"Error reading '{file_path}': {e}")
 
