@@ -8,7 +8,7 @@ start_time = time.time()
 
 # Check arguments
 if len(sys.argv) != 2:
-    print("Usage: python regex_check.py <directory_path>")
+    print("Usage: python text_check.py <directory_path>")
     sys.exit(1)
 
 directory_path = sys.argv[1]
